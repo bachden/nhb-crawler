@@ -45,6 +45,8 @@ public interface HeadlessWebview extends Closeable {
 
 	String getPageSource();
 
+	void setParsePageSource(boolean parsePageSource);
+
 	public static String extractUri(HttpClientContext context) {
 		HttpUriRequest currentReq = (HttpUriRequest) context.getRequest();
 		HttpHost currentHost = context.getTargetHost();
