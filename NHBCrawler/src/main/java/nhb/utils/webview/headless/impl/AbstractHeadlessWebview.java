@@ -9,11 +9,18 @@ import org.apache.http.client.CookieStore;
 import org.apache.http.client.protocol.HttpClientContext;
 import org.apache.http.util.EntityUtils;
 
+import com.nhb.common.Loggable;
+
 import lombok.Getter;
+import lombok.Setter;
 import nhb.utils.webview.headless.HeadlessWebview;
 import nhb.utils.webview.headless.HeadlessWebviewCallback;
 
-public abstract class AbstractHeadlessWebview implements HeadlessWebview {
+public abstract class AbstractHeadlessWebview implements HeadlessWebview, Loggable {
+
+	@Setter
+	@Getter
+	private String userAgent;
 
 	@Getter
 	private final CookieStore cookieStore;
@@ -42,6 +49,11 @@ public abstract class AbstractHeadlessWebview implements HeadlessWebview {
 	}
 
 	@Override
+	public boolean getParsePageSource() {
+		return this.parsePageSource.get();
+	}
+
+	@Override
 	public String getPageSource() {
 		if (this.parsePageSource.get()) {
 			return this.pageSource;
@@ -53,7 +65,7 @@ public abstract class AbstractHeadlessWebview implements HeadlessWebview {
 		this.uri = extractUri(context);
 		this.targetHost = context.getTargetHost().toURI();
 		try {
-			if (this.parsePageSource.get()) {
+			if (this.getParsePageSource()) {
 				this.pageSource = EntityUtils.toString(response.getEntity());
 			}
 			if (callback != null) {

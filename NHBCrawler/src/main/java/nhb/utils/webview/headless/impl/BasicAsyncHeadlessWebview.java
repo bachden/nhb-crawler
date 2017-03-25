@@ -55,7 +55,8 @@ public class BasicAsyncHeadlessWebview extends AbstractHeadlessWebview {
 		}
 	}
 
-	private final CloseableHttpAsyncClient httpAsyncClient;
+	private final Object monitorObject = new Object();
+	private CloseableHttpAsyncClient httpAsyncClient;
 
 	public BasicAsyncHeadlessWebview() {
 		this(new BasicCookieStore());
@@ -63,7 +64,48 @@ public class BasicAsyncHeadlessWebview extends AbstractHeadlessWebview {
 
 	public BasicAsyncHeadlessWebview(CookieStore cookieStore) {
 		super(cookieStore);
-		this.httpAsyncClient = HttpAsyncClientBuilder.create().setRedirectStrategy(new LaxRedirectStrategy()).build();
+
+	}
+
+	public BasicAsyncHeadlessWebview(CookieStore cookieStore, String userAgent) {
+		super(cookieStore);
+		this.setUserAgent(userAgent);
+	}
+
+	public BasicAsyncHeadlessWebview(String userAgent) {
+		super(new BasicCookieStore());
+		this.setUserAgent(userAgent);
+	}
+
+	protected CloseableHttpAsyncClient getHttpAsyncClient() {
+		if (httpAsyncClient == null) {
+			synchronized (monitorObject) {
+				if (this.httpAsyncClient == null) {
+					HttpAsyncClientBuilder builder = HttpAsyncClientBuilder.create()
+							.setRedirectStrategy(new LaxRedirectStrategy());
+					if (this.getUserAgent() != null) {
+						builder.setUserAgent(this.getUserAgent());
+					}
+					this.httpAsyncClient = builder.build();
+				}
+			}
+		}
+		return httpAsyncClient;
+	}
+
+	@Override
+	public void setUserAgent(String userAgent) {
+		synchronized (monitorObject) {
+			super.setUserAgent(userAgent);
+			if (this.httpAsyncClient != null) {
+				try {
+					this.httpAsyncClient.close();
+				} catch (IOException e) {
+					getLogger().error("Error while closing old http async client", e);
+				}
+				this.httpAsyncClient = null;
+			}
+		}
 	}
 
 	@Override
@@ -74,10 +116,10 @@ public class BasicAsyncHeadlessWebview extends AbstractHeadlessWebview {
 
 	@Override
 	public void close() throws IOException {
-		if (this.httpAsyncClient.isRunning()) {
-			synchronized (this.httpAsyncClient) {
-				if (this.httpAsyncClient.isRunning()) {
-					this.httpAsyncClient.close();
+		if (this.getHttpAsyncClient().isRunning()) {
+			synchronized (this.getHttpAsyncClient()) {
+				if (this.getHttpAsyncClient().isRunning()) {
+					this.getHttpAsyncClient().close();
 				}
 			}
 		}
@@ -88,15 +130,15 @@ public class BasicAsyncHeadlessWebview extends AbstractHeadlessWebview {
 		HttpClientContext context = new HttpClientContext();
 		context.setCookieStore(this.getCookieStore());
 
-		if (!this.httpAsyncClient.isRunning()) {
-			synchronized (this.httpAsyncClient) {
-				if (!this.httpAsyncClient.isRunning()) {
-					this.httpAsyncClient.start();
+		if (!this.getHttpAsyncClient().isRunning()) {
+			synchronized (this.getHttpAsyncClient()) {
+				if (!this.getHttpAsyncClient().isRunning()) {
+					this.getHttpAsyncClient().start();
 				}
 			}
 		}
 
-		this.httpAsyncClient.execute(request, context, new FutureCallback<HttpResponse>() {
+		this.getHttpAsyncClient().execute(request, context, new FutureCallback<HttpResponse>() {
 
 			@Override
 			public void failed(Exception ex) {
@@ -127,15 +169,15 @@ public class BasicAsyncHeadlessWebview extends AbstractHeadlessWebview {
 		HttpClientContext context = new HttpClientContext();
 		context.setCookieStore(this.getCookieStore());
 
-		if (!this.httpAsyncClient.isRunning()) {
-			synchronized (this.httpAsyncClient) {
-				if (!this.httpAsyncClient.isRunning()) {
-					this.httpAsyncClient.start();
+		if (!this.getHttpAsyncClient().isRunning()) {
+			synchronized (this.getHttpAsyncClient()) {
+				if (!this.getHttpAsyncClient().isRunning()) {
+					this.getHttpAsyncClient().start();
 				}
 			}
 		}
 
-		this.httpAsyncClient.execute(request, context, new AsyncHttpCallback(this, context, callback));
+		this.getHttpAsyncClient().execute(request, context, new AsyncHttpCallback(this, context, callback));
 	}
 
 }

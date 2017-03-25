@@ -9,6 +9,14 @@ import org.apache.http.client.protocol.HttpClientContext;
 
 public interface HeadlessWebview extends Closeable {
 
+	void setParsePageSource(boolean parsePageSource);
+
+	boolean getParsePageSource();
+
+	void setUserAgent(String userAgent);
+
+	String getUserAgent();
+
 	CookieStore getCookieStore();
 
 	/**
@@ -44,8 +52,6 @@ public interface HeadlessWebview extends Closeable {
 	}
 
 	String getPageSource();
-
-	void setParsePageSource(boolean parsePageSource);
 
 	public static String extractUri(HttpClientContext context) {
 		HttpUriRequest currentReq = (HttpUriRequest) context.getRequest();
