@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import nhb.utils.SystemChecker;
 import nhb.utils.phantomjs.exception.ExecuteCommandError;
-import nhb.utils.phantomjs.utils.SystemChecker;
 
 public interface ConcreteCommandExecutor extends ShellCommandExecutor {
 

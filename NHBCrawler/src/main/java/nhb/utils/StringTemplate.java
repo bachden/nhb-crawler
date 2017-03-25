@@ -1,4 +1,4 @@
-package nhb.utils.phantomjs.utils;
+package nhb.utils;
 
 import java.util.Map;
 import java.util.Map.Entry;

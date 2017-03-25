@@ -4,7 +4,7 @@ import java.io.File;
 
 import com.nhb.common.Loggable;
 
-import nhb.utils.phantomjs.utils.DownloadHelper;
+import nhb.utils.DownloadHelper;
 
 public interface FileDownloader extends Loggable {
 

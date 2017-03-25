@@ -1,4 +1,4 @@
-package nhb.utils.phantomjs.utils;
+package nhb.utils;
 
 import java.io.File;
 import java.io.FileOutputStream;

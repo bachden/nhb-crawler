@@ -10,14 +10,14 @@ import java.util.Properties;
 
 import com.nhb.common.utils.FileSystemUtils;
 
+import nhb.utils.DownloadHelper;
+import nhb.utils.StringTemplate;
+import nhb.utils.SystemChecker;
 import nhb.utils.phantomjs.exception.ExecuteCommandError;
 import nhb.utils.phantomjs.executor.AutoDownloadExecutor;
 import nhb.utils.phantomjs.executor.InitableExecutor;
 import nhb.utils.phantomjs.executor.PhantomJsExecutor;
 import nhb.utils.phantomjs.statics.C;
-import nhb.utils.phantomjs.utils.DownloadHelper;
-import nhb.utils.phantomjs.utils.StringTemplate;
-import nhb.utils.phantomjs.utils.SystemChecker;
 
 public class DefaultPhantomJsExecutor implements PhantomJsExecutor, AutoDownloadExecutor, InitableExecutor {
 

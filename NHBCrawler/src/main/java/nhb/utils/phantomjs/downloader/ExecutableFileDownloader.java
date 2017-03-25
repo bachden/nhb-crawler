@@ -7,10 +7,10 @@ import java.nio.file.attribute.PosixFilePermission;
 import java.util.Arrays;
 import java.util.HashSet;
 
+import nhb.utils.SystemChecker;
 import nhb.utils.phantomjs.exception.MakeExecutableException;
 import nhb.utils.phantomjs.executor.FileCachable;
 import nhb.utils.phantomjs.statics.C;
-import nhb.utils.phantomjs.utils.SystemChecker;
 
 public interface ExecutableFileDownloader extends FileDownloader {
 

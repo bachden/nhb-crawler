@@ -1,6 +1,6 @@
 package nhb.utils.phantomjs.statics;
 
-import nhb.utils.phantomjs.utils.SystemChecker;
+import nhb.utils.SystemChecker;
 
 public interface C {
 
