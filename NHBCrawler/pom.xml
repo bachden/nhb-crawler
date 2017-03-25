@@ -71,4 +71,18 @@
 			<version>1.3.2</version>
 		</dependency>
 	</dependencies>
+
+
+	<distributionManagement>
+		<repository>
+			<id>central</id>
+			<name>puppet-releases</name>
+			<url>http://artifactory.puppetserver.com/libs-release-local</url>
+		</repository>
+	</distributionManagement>
+	<scm>
+		<url>https://github.com/bachden/nhb-crawler.git</url>
+		<developerConnection>bachden</developerConnection>
+		<tag>crawler</tag>
+	</scm>
 </project>
