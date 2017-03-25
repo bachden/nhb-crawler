@@ -1,6 +1,6 @@
-package nhb.utils.phantomjs.executor.phantomjs;
+package nhb.utils.phantomjs.executor;
 
-import nhb.utils.phantomjs.executor.ScriptExecutor;
+import nhb.utils.phantomjs.executor.impl.DefaultPhantomJsExecutor;
 
 public interface PhantomJsExecutor extends ScriptExecutor {
 

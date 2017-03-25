@@ -1,4 +1,4 @@
-package nhb.utils.phantomjs.executor.phantomjs;
+package nhb.utils.phantomjs.executor.impl;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -13,6 +13,7 @@ import com.nhb.common.utils.FileSystemUtils;
 import nhb.utils.phantomjs.exception.ExecuteCommandError;
 import nhb.utils.phantomjs.executor.AutoDownloadExecutor;
 import nhb.utils.phantomjs.executor.InitableExecutor;
+import nhb.utils.phantomjs.executor.PhantomJsExecutor;
 import nhb.utils.phantomjs.statics.C;
 import nhb.utils.phantomjs.utils.DownloadHelper;
 import nhb.utils.phantomjs.utils.StringTemplate;
